@@ -1,0 +1,25 @@
+name: CGRPGCore
+version: '${project.version}'
+main: cg.creamgod45.cgrpgcore.CGRPGCore
+authors: [CreamGod45]
+api-version: '1.18'
+depend:
+  - PlaceholderAPI
+description: 專屬授權於 CreamGod45 作者所使用的 RPG 系統
+
+commands:
+  cgrpgcore:
+    description: "CGRPGCore"
+    aliases:
+      - cgrpg
+      - cgrpgc
+    permission: cgrpgcore.use
+    permission-message: "您沒有權限使用此命令"
+
+permissions:
+  cgrpgcore.use:
+    description: 一般使用者權限
+    default: false
+  cgrpgcore.admin:
+    description: 管理員使用者權限
+    default: false

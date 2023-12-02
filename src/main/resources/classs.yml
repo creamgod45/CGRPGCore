@@ -1,0 +1,36 @@
+base:
+  Name: 無職業
+  Description:
+    - 無法體驗遊玩遊戲
+  maxLevel: 1
+  levelCurve:
+    maxlevelAddition:
+      # 請選擇一個當作你的加成的參數"Addition(加法)Subtraction(減法)Multiplication(乘法)Division(除法)"
+      type: "Addition"
+      # Double
+      value: 1000
+  Health: 20
+  HealthLevelUPAddition: 1.0
+  MANA: 0
+  MANALevelUPAddition: 1.0
+  Stamina: 20
+  StaminaLevelUPAddition: 1.0;
+Z:
+  parentRPGClass: base
+  Name: Z級冒險者
+  Description:
+    - Z級冒險者
+    - 可以學習很多的技能
+  maxLevel: 100
+  levelCurve:
+    maxlevelAddition:
+      # 請選擇一個當作你的加成的參數"Addition(加法)Subtraction(減法)Multiplication(乘法)Division(除法)"
+      type: "Addition"
+      # Double
+      value: 1000
+  Health: 20
+  HealthLevelUPAddition: 1.0
+  MANA: 20
+  MANALevelUPAddition: 1.0
+  Stamina: 20
+  StaminaLevelUPAddition: 1.0;

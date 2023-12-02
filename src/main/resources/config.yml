@@ -1,0 +1,9 @@
+Config:
+  # 強制重新刷新文件
+  Refresh: false
+  # 版本號識別用於對舊版本文件設定更新設定節點功能
+  Version: "1"
+  # 訊息樣板
+  Messages:
+    # 前綴訊息
+    prefix: "<color:#32a852>CGRPGCore <gray>⟫"
