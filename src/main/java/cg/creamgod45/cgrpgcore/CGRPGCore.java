@@ -7,17 +7,15 @@ import cg.creamgod45.cgrpgcore.Storage.HookingPluginsMemoryContainer;
 import cg.creamgod45.cgrpgcore.Storage.MemoryContainer;
 import cg.creamgod45.cgrpgcore.Storage.RPGClassMemoryContainer;
 import cg.creamgod45.cgrpgcore.Storage.StorageNameField;
-import cg.creamgod45.cgrpgcore.Utils.ComponentMerge;
-import cg.creamgod45.cgrpgcore.Utils.Config;
-import cg.creamgod45.cgrpgcore.Utils.HookingPlugin;
-import cg.creamgod45.cgrpgcore.Utils.Utils;
+import cg.creamgod45.cgrpgcore.Utils.*;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Map;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.OperatingSystemMXBean;
 
 public final class CGRPGCore extends JavaPlugin {
     public static BukkitAudiences adventure;
@@ -26,6 +24,8 @@ public final class CGRPGCore extends JavaPlugin {
     public static MemoryContainer<Object> memory;
     @Override
     public void onEnable() {
+        // 記錄開始時間
+        long startTime = System.currentTimeMillis();
         plugin = this;
         adventure = BukkitAudiences.create(this);
         config = new Config(this);
@@ -47,8 +47,26 @@ public final class CGRPGCore extends JavaPlugin {
                 .add("<yellow>啟動....")
                 .output().print();
         ReloadFunction();
+        Utils.MiniMessage(memory.toString());
         new ComponentMerge(config.prefix())
                 .add("<yellow>啟動....<green>完成")
+                .output().print();
+        // 記錄結束時間
+        long endTime = System.currentTimeMillis();
+        // 計算運算時間
+        long elapsedTime = endTime - startTime;
+        new ComponentMerge(config.prefix()).add("<yellow>運算時間: "+elapsedTime+" ms").output().print();
+
+        // 獲取操作系統MXBean
+        OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
+        // 獲取CPU使用量
+        double cpuUsage = osBean.getSystemLoadAverage();
+        new ComponentMerge(config.prefix()).add("<yellow>CPU 使用量: "+cpuUsage).output().print();
+
+        MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
+        long usedMemory = memoryMXBean.getHeapMemoryUsage().getUsed();
+        new ComponentMerge(config.prefix())
+                .add("<yellow>記憶體使用量: "+ ByteUnitConverter.convert("b","mb",usedMemory)+" MB")
                 .output().print();
     }
 

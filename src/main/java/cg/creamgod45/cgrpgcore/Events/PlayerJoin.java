@@ -1,8 +1,6 @@
 package cg.creamgod45.cgrpgcore.Events;
 
 import cg.creamgod45.cgrpgcore.CGRPGCore;
-import cg.creamgod45.cgrpgcore.RPG.Player.RPGPlayer;
-import cg.creamgod45.cgrpgcore.Storage.StorageNameField;
 import cg.creamgod45.cgrpgcore.Utils.ComponentMerge;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

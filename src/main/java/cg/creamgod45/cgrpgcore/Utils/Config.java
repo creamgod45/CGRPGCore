@@ -1,7 +1,6 @@
 package cg.creamgod45.cgrpgcore.Utils;
 
 import cg.creamgod45.cgrpgcore.CGRPGCore;
-import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
