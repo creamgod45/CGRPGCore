@@ -9,12 +9,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class cgrpgcoreCommandExecutor implements CommandExecutor , ICommandManual {
+public class cgrpgcoreCommandExecutor implements CommandExecutor, ICommandManual {
     int totalpage = 1;
     private CGRPGCore plugin;
 
     public cgrpgcoreCommandExecutor(CGRPGCore cgrpgCore) {
-        plugin=cgrpgCore;
+        plugin = cgrpgCore;
         new ComponentMerge(cgrpgCore.getConfigClass().prefix())
                 .add("<color:#4287f5>指令註冊.... -> [cgrpgcore] => Executor")
                 .output().print();
@@ -31,7 +31,7 @@ public class cgrpgcoreCommandExecutor implements CommandExecutor , ICommandManua
             case 0 -> {
                 new ComponentMerge("")
                         .add("<color:#f54296>=====================================================").newline()
-                        .add("<yellow><bold>[CGRPGCore] <red>指令幫助 頁面: (" + page + "/"+totalpage+")").newline()
+                        .add("<yellow><bold>[CGRPGCore] <red>指令幫助 頁面: (" + page + "/" + totalpage + ")").newline()
                         .add("<color:#8d42f5>指令簡稱 [cgrpg, cgrpgc]").newline()
                         .add("<color:#5a8af2>說明: 這是一個RPG系統").newline()
                         .add("<color:#43e8b9>參數說明:").newline()
@@ -53,7 +53,7 @@ public class cgrpgcoreCommandExecutor implements CommandExecutor , ICommandManua
             case 1 -> {
                 new ComponentMerge("")
                         .add("<color:#f54296>=====================================================").newline()
-                        .add("<yellow><bold>[CGRPGCore] <red>指令幫助 頁面: (" + page + "/"+totalpage+")").newline()
+                        .add("<yellow><bold>[CGRPGCore] <red>指令幫助 頁面: (" + page + "/" + totalpage + ")").newline()
                         .add("<color:#8d42f5>指令簡稱 [cgrpg, cgrpgc]").newline()
                         .add("<color:#5a8af2>說明: 這是一個RPG系統").newline()
                         .add("<color:#43e8b9>參數說明:").newline()
@@ -80,20 +80,20 @@ public class cgrpgcoreCommandExecutor implements CommandExecutor , ICommandManua
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if(commandSender instanceof Player player){
-            if(args.length>0) {
+        if (commandSender instanceof Player player) {
+            if (args.length > 0) {
                 switch (args[0]) {
                     case "help" -> {
                         if (args.length >= 2) {
                             int page = Integer.parseInt(args[1]);
                             Manual(player, page);
-                        }else{
+                        } else {
                             Manual(player, 0);
                         }
                     }
                 }
             }
-        }else{
+        } else {
 
         }
         return false;

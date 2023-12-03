@@ -24,6 +24,7 @@ public class RPGClassMemoryContainer {
         this.plugin = plugin;
         this.rpgClassMap = new HashMap<>();
         initClassFile();
+        saveClass();
     }
 
     public Map<String, RPGClass> getRpgClassMap() {
@@ -40,7 +41,7 @@ public class RPGClassMemoryContainer {
 
     private YamlConfiguration getYml() {
         File file = new File(plugin.getDataFolder() + "/classs.yml");
-        if(!file.exists()) {
+        if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {
@@ -60,6 +61,7 @@ public class RPGClassMemoryContainer {
         if (getYml().get(name) == null) return false;
         ConfigurationSection configurationSection = getYml().getConfigurationSection(name);
         if (configurationSection == null) return false;
+        if (configurationSection.get("defaultClass") == null) return false;
         if (configurationSection.get("Name") == null) return false;
         if (configurationSection.get("Description") == null) return false;
         if (configurationSection.get("maxLevel") == null) return false;
@@ -79,10 +81,10 @@ public class RPGClassMemoryContainer {
         abstractRPGClasses.forEach((classname, abstractRPGClass) -> {
             RPGClass rpgClass;
             if (abstractRPGClass.getParentRPGClass() == null) {
-                rpgClass = new RPGClass(abstractRPGClass.getName(), abstractRPGClass.getDescription(), abstractRPGClass.getMaxLevel(), abstractRPGClass.getLevelCurve(), abstractRPGClass.getHealth(), abstractRPGClass.getHealthLevelUPAddition(), abstractRPGClass.getMANA(), abstractRPGClass.getMANALevelUPAddition(), abstractRPGClass.getStamina(), abstractRPGClass.getStaminaLevelUPAddition());
+                rpgClass = new RPGClass(abstractRPGClass);
             } else {
                 RPGClass parentRpgClass = rpgClassMap.get(abstractRPGClass.getParentRPGClass());
-                rpgClass = new RPGClass(parentRpgClass, abstractRPGClass.getName(), abstractRPGClass.getDescription(), abstractRPGClass.getMaxLevel(), abstractRPGClass.getLevelCurve(), abstractRPGClass.getHealth(), abstractRPGClass.getHealthLevelUPAddition(), abstractRPGClass.getMANA(), abstractRPGClass.getMANALevelUPAddition(), abstractRPGClass.getStamina(), abstractRPGClass.getStaminaLevelUPAddition());
+                rpgClass = new RPGClass(abstractRPGClass, parentRpgClass);
             }
             rpgClassMap.put(classname, rpgClass);
         });
@@ -92,16 +94,35 @@ public class RPGClassMemoryContainer {
         // 先建立沒有父系
         abstractRPGClasses.forEach((classname, abstractRPGClass) -> {
             if (abstractRPGClass.getParentRPGClass() == null) {
-                RPGClass rpgClass = new RPGClass(abstractRPGClass.getName(), abstractRPGClass.getDescription(), abstractRPGClass.getMaxLevel(), abstractRPGClass.getLevelCurve(), abstractRPGClass.getHealth(), abstractRPGClass.getHealthLevelUPAddition(), abstractRPGClass.getMANA(), abstractRPGClass.getMANALevelUPAddition(), abstractRPGClass.getStamina(), abstractRPGClass.getStaminaLevelUPAddition());
+                RPGClass rpgClass = new RPGClass(abstractRPGClass);
                 rpgClassMap.put(classname, rpgClass);
             }
         });
         abstractRPGClasses.forEach((classname, abstractRPGClass) -> {
             if (abstractRPGClass.getParentRPGClass() != null) {
-                RPGClass rpgClass = new RPGClass(rpgClassMap.get(abstractRPGClass.getParentRPGClass()), abstractRPGClass.getName(), abstractRPGClass.getDescription(), abstractRPGClass.getMaxLevel(), abstractRPGClass.getLevelCurve(), abstractRPGClass.getHealth(), abstractRPGClass.getHealthLevelUPAddition(), abstractRPGClass.getMANA(), abstractRPGClass.getMANALevelUPAddition(), abstractRPGClass.getStamina(), abstractRPGClass.getStaminaLevelUPAddition());
+                RPGClass parentRpgClass = rpgClassMap.get(abstractRPGClass.getParentRPGClass());
+                RPGClass rpgClass = new RPGClass(abstractRPGClass, parentRpgClass);
                 rpgClassMap.put(classname, rpgClass);
             }
         });
+    }
+
+    public void saveClass(){
+        File file = new File(plugin.getDataFolder() + "/tmp.yml");
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        YamlConfiguration yml = getYml();
+        rpgClassMap.forEach(yml::set);
+        try {
+            yml.save(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void initClassFile() {
@@ -116,15 +137,19 @@ public class RPGClassMemoryContainer {
                     String Name = cs.getString("Name");
                     List<String> description = cs.getStringList("Description");
                     int maxLevel = cs.getInt("maxLevel");
-                    String levelCurve_maxlevelAddition_type = cs.getString("levelCurve.maxlevelAddition.type");
+                    String levelCurve_maxlevelAddition_type = cs.getString("levelCurve.maxlevelAddition.type", "Addition");
                     double levelCurve_maxlevelAddition_value = cs.getDouble("levelCurve.maxlevelAddition.value");
+                    double levelCurve_maxlevelAddition_base = cs.getDouble("levelCurve.maxlevelAddition.base");
                     double Health = cs.getDouble("Health");
                     double HealthLevelUPAddition = cs.getDouble("HealthLevelUPAddition");
                     double MANA = cs.getDouble("MANA");
                     double MANALevelUPAddition = cs.getDouble("MANALevelUPAddition");
                     double Stamina = cs.getDouble("Stamina");
                     double StaminaLevelUPAddition = cs.getDouble("StaminaLevelUPAddition");
-                    abstractRPGClass abstractRPGClass = new abstractRPGClass(parentRPGClass, Name, description, maxLevel, new LevelCurve(LevelCurve.LevelCurveTypeEnum.valueOf(levelCurve_maxlevelAddition_type), levelCurve_maxlevelAddition_value), Health, HealthLevelUPAddition, MANA, MANALevelUPAddition, Stamina, StaminaLevelUPAddition);
+                    boolean defaultClass = cs.getBoolean("defaultClass");
+                    abstractRPGClass abstractRPGClass = new abstractRPGClass(parentRPGClass, Name, description, maxLevel,
+                            new LevelCurve(levelCurve_maxlevelAddition_type,levelCurve_maxlevelAddition_value, levelCurve_maxlevelAddition_base),
+                            Health, HealthLevelUPAddition, MANA, MANALevelUPAddition, Stamina, StaminaLevelUPAddition, defaultClass, key);
                     abstractRPGClasses.put(key, abstractRPGClass);
                 }
             }

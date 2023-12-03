@@ -1,10 +1,10 @@
 package cg.creamgod45.cgrpgcore.Utils;
 
 public class PluginRunnable implements Runnable {
-    private final PluginRunnableCallback callback;
+    private final IPluginRunnableCallback callback;
     private final HookingPlugin plugin;
 
-    public PluginRunnable(PluginRunnableCallback callback, HookingPlugin plugin) {
+    public PluginRunnable(IPluginRunnableCallback callback, HookingPlugin plugin) {
         this.callback = callback;
         this.plugin = plugin;
     }

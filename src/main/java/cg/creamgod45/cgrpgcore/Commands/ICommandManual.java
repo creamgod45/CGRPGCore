@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 public interface ICommandManual {
 
-    default void PageControl(Player player, Integer page, Integer totalpage){
+    default void PageControl(Player player, Integer page, Integer totalpage) {
         ComponentMerge componentMerge = new ComponentMerge("").add("頁面: ");
         if (page != 0) {
             componentMerge.add("<click:run_command:/cgrpgcore help " + (page - 1) + "><hover:show_text:'<red>點我執行'><green><bold>[上一頁]</hover></click>");

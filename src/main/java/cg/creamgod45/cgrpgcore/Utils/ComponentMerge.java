@@ -37,38 +37,40 @@ public class ComponentMerge {
         return this;
     }
 
-    public ComponentMerge add(List<String> list){
+    public ComponentMerge add(List<String> list) {
         for (String s : list) {
             add(s);
         }
         return this;
     }
 
-    public ComponentMerge add(Component[] clist){
+    public ComponentMerge add(Component[] clist) {
         for (Component component1 : clist) {
             add(component1);
         }
         return this;
     }
 
-    public ComponentMerge newline(){
+    public ComponentMerge newline() {
         this.component = this.component.append(ComponentParser("<newline>"));
         return this;
     }
 
-    public Output output (){
+    public Output output() {
         return new Output(this.component);
     }
 
-    public static class Output{
+    public static class Output {
         private Component component;
-        public Output(Component c){
-            this.component=c;
+
+        public Output(Component c) {
+            this.component = c;
         }
 
-        public void print(){
+        public void print() {
             CGRPGCore.adventure.console().sendMessage(component);
         }
+
         public void print(Player player) {
             CGRPGCore.adventure.player(player).sendMessage(component);
         }

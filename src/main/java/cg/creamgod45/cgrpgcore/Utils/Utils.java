@@ -30,9 +30,10 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class Utils {
-    public static HookingPlugin hasHookingPlugin(String pluginName){
+    public static HookingPlugin hasHookingPlugin(String pluginName) {
         return new HookingPlugin(pluginName);
     }
+
     public static RayTraceResult getRayTrace(Player paramPlayer, double paramDouble, Predicate<Block> paramPredicate, Predicate<Entity> paramPredicate1) {
         Location location = paramPlayer.getEyeLocation();
         Vector vector = location.getDirection();

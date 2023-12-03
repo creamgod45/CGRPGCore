@@ -4,7 +4,21 @@ import java.util.List;
 
 // 基本範本類(ClassLoader -> ClassList -> Map<String, Class>) 儲存類 (RPGPlayer)
 public class abstractRPGClass {
-    public abstractRPGClass(String parentRPGClass, String name, List<String> description, int maxLevel, LevelCurve levelCurve, double health, double healthLevelUPAddition, double MANA, double MANALevelUPAddition, double stamina, double staminaLevelUPAddition) {
+    private String node;
+    private final boolean defaultClass;
+    private String parentRPGClass;
+    private String Name;
+    private List<String> Description;
+    private int maxLevel;
+    private LevelCurve levelCurve;
+    private double Health;
+    private double HealthLevelUPAddition;
+    private double MANA;
+    private double MANALevelUPAddition;
+    private double Stamina;
+    private double StaminaLevelUPAddition;
+
+    public abstractRPGClass(String parentRPGClass, String name, List<String> description, int maxLevel, LevelCurve levelCurve, double health, double healthLevelUPAddition, double MANA, double MANALevelUPAddition, double stamina, double staminaLevelUPAddition, boolean defaultClass, String ID) {
         this.parentRPGClass = parentRPGClass;
         Name = name;
         Description = description;
@@ -16,12 +30,38 @@ public class abstractRPGClass {
         this.MANALevelUPAddition = MANALevelUPAddition;
         Stamina = stamina;
         StaminaLevelUPAddition = staminaLevelUPAddition;
+        this.defaultClass = defaultClass;
+        this.node = ID;
     }
 
-    private String parentRPGClass;
-    private String Name;
-    private List<String> Description;
-    private int maxLevel;
+    public boolean isDefaultClass() {
+        return defaultClass;
+    }
+
+    public String getNode() {
+        return node;
+    }
+
+    public void setNode (String v){ this.node = v;}
+
+    @Override
+    public String toString() {
+        return "abstractRPGClass{" +
+                "node='" + node + '\'' +
+                ", defaultClass=" + defaultClass +
+                ", parentRPGClass='" + parentRPGClass + '\'' +
+                ", Name='" + Name + '\'' +
+                ", Description=" + Description +
+                ", maxLevel=" + maxLevel +
+                ", levelCurve=" + levelCurve +
+                ", Health=" + Health +
+                ", HealthLevelUPAddition=" + HealthLevelUPAddition +
+                ", MANA=" + MANA +
+                ", MANALevelUPAddition=" + MANALevelUPAddition +
+                ", Stamina=" + Stamina +
+                ", StaminaLevelUPAddition=" + StaminaLevelUPAddition +
+                '}';
+    }
 
     public String getParentRPGClass() {
         return parentRPGClass;
@@ -110,13 +150,5 @@ public class abstractRPGClass {
     public void setStaminaLevelUPAddition(double staminaLevelUPAddition) {
         StaminaLevelUPAddition = staminaLevelUPAddition;
     }
-
-    private LevelCurve levelCurve;
-    private double Health;
-    private double HealthLevelUPAddition;
-    private double MANA;
-    private double MANALevelUPAddition;
-    private double Stamina;
-    private double StaminaLevelUPAddition;
 
 }

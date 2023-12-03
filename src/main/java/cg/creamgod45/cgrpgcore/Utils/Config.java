@@ -13,7 +13,13 @@ public class Config {
     public static boolean ConfigLoad;
     private static CGRPGCore instance;
     private static YamlConfiguration config;
-    public static void VersionControl(YamlConfiguration yml){
+
+    public Config(CGRPGCore plugin) {
+        instance = plugin;
+        config = config();
+    }
+
+    public static void VersionControl(YamlConfiguration yml) {
         PluginDescriptionFile pdf = instance.getDescription();
         switch (pdf.getVersion()) {
             case "1" -> Updater.v1(yml);
@@ -25,7 +31,15 @@ public class Config {
         }
     }
 
-    public YamlConfiguration config(){
+    public static <T> T getNode(String Path) {
+        Object o = config.get(Path);
+        if (o != null)
+            return (T) o;
+        else
+            return null;
+    }
+
+    public YamlConfiguration config() {
         Resources resources = new Resources(instance);
         resources.load();
 
@@ -44,7 +58,7 @@ public class Config {
             VersionControl(yml);
 
             try {
-                instance.getConfig().load(instance.getDataFolder()+"/config.yml");
+                instance.getConfig().load(instance.getDataFolder() + "/config.yml");
                 ConfigLoad = true;
             } catch (IOException var8) {
                 instance.getLogger().info("表示發生了某種 I/O 異常。此類是由失敗或中斷的 I/O 操作產生的一般異常類。");
@@ -70,20 +84,7 @@ public class Config {
         return yml;
     }
 
-    public Config(CGRPGCore plugin) {
-        instance = plugin;
-        config = config();
-    }
-
-    public static <T> T getNode(String Path){
-        Object o = config.get(Path);
-        if(o!=null)
-            return (T) o;
-        else
-            return null;
-    }
-
-    public String prefix(){
+    public String prefix() {
         return config.getString("Config.Messages.prefix");
     }
 }

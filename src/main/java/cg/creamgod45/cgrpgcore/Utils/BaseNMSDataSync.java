@@ -10,7 +10,7 @@ public class BaseNMSDataSync {
     public String version;
     public MinecraftServer nmsServer;
 
-    public BaseNMSDataSync(){
+    public BaseNMSDataSync() {
         this.version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
         this.nmsServer = null;
         try {
@@ -27,7 +27,8 @@ public class BaseNMSDataSync {
             Object minecraftServer = getServerMethod.invoke(craftServer);
             this.nmsServer = (MinecraftServer) minecraftServer;
             Utils.ConsoleInfoPrint(this.nmsServer.toString());
-        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+                 IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
@@ -39,7 +40,7 @@ public class BaseNMSDataSync {
     }
 
     public Class<?> getBukkitClass(String nmsClassString) throws ClassNotFoundException {
-        String name = "org.bukkit.craftbukkit." + this.version+ "." + nmsClassString;
+        String name = "org.bukkit.craftbukkit." + this.version + "." + nmsClassString;
         return Class.forName(name);
     }
 }

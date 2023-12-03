@@ -16,7 +16,7 @@ public class cgrpgcoreTabCompleter implements TabCompleter {
     private CGRPGCore plugin;
 
     public cgrpgcoreTabCompleter(CGRPGCore cgrpgCore) {
-        plugin=cgrpgCore;
+        plugin = cgrpgCore;
         new ComponentMerge(cgrpgCore.getConfigClass().prefix())
                 .add("<color:#4287f5>指令註冊.... -> [cgrpgcore] => TabCompleter")
                 .output().print();
@@ -25,14 +25,14 @@ public class cgrpgcoreTabCompleter implements TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         List<String> tab = new ArrayList<>();
-        if(commandSender instanceof Player player){
+        if (commandSender instanceof Player player) {
             if (args.length == 1) {
                 tab = new ArrayList<String>();
                 tab.add("!說明: 請選擇你要的服務。");
                 tab.add("help");
                 return tab;
             }
-            if(args.length>0){
+            if (args.length > 0) {
                 if (args[0].equals("help") && args.length == 2) {
                     tab = new ArrayList<String>();
                     tab.add("!說明:頁數");
@@ -43,14 +43,14 @@ public class cgrpgcoreTabCompleter implements TabCompleter {
                     return tab;
                 }
             }
-        }else{
+        } else {
             if (args.length == 1) {
                 tab = new ArrayList<String>();
                 tab.add("!說明: 請選擇你要的服務。");
                 tab.add("help");
                 return tab;
             }
-            if(args.length>0){
+            if (args.length > 0) {
                 if (args[0].equals("help") && args.length == 2) {
                     tab = new ArrayList<String>();
                     tab.add("!說明:頁數");

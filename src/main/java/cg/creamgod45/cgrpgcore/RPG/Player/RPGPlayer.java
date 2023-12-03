@@ -1,21 +1,20 @@
 package cg.creamgod45.cgrpgcore.RPG.Player;
 
-import cg.creamgod45.cgrpgcore.CGRPGCore;
 import cg.creamgod45.cgrpgcore.RPG.Skill.Skill;
+import net.minecraft.server.level.EntityPlayer;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.Arrays;
+import java.util.UUID;
 
 // 用儲存玩家資訊檔案、或是被系統調用
 public class RPGPlayer {
     // 儲存玩家資訊
-    private final OfflinePlayer player;
+    private Player player;
     // 儲存玩家血量
     private double Health;
+    private double MaxHealth;
     // 儲存玩家魔力值
     private double MANA;
     // 儲存玩家耐力值
@@ -41,36 +40,175 @@ public class RPGPlayer {
     // 玩家擁有的技能
     private Skill[] unlockSkill;
 
-    public RPGPlayer(Player player) {
-        this.player = player;
-        this.Level = new Level();
-        this.RPGClass = new RPGClass();
-        load();
+    public RPGPlayer(double health, double maxHealth, double MANA, double stamina, cg.creamgod45.cgrpgcore.RPG.Player.Level level, Attributes attributes, Points points, Equipment equipment, Pet pet, Team team, cg.creamgod45.cgrpgcore.RPG.Player.RPGClass RPGClass, Rank rank, cg.creamgod45.cgrpgcore.RPG.Player.CPI CPI, Skill[] unlockSkill) {
+        Health = health;
+        this.MaxHealth = maxHealth;
+        this.MANA = MANA;
+        Stamina = stamina;
+        Level = level;
+        this.attributes = attributes;
+        this.points = points;
+        this.equipment = equipment;
+        this.pet = pet;
+        this.team = team;
+        this.RPGClass = RPGClass;
+        this.rank = rank;
+        this.CPI = CPI;
+        this.unlockSkill = unlockSkill;
     }
 
-    private YamlConfiguration getYamlConfiguration(){
-        File file = new File(CGRPGCore.plugin.getDataFolder()+"/"+player.getUniqueId()+".yml");
-
-        YamlConfiguration yml = new YamlConfiguration();
-        try {
-            yml.load(file);
-        } catch (IOException | InvalidConfigurationException e) {
-            throw new RuntimeException(e);
-        }
-        return yml;
+    public RPGPlayer(double health, double maxHealth, double MANA, double stamina, cg.creamgod45.cgrpgcore.RPG.Player.Level level, Attributes attributes, Points points, Equipment equipment, Pet pet, Team team, cg.creamgod45.cgrpgcore.RPG.Player.RPGClass RPGClass, Rank rank, cg.creamgod45.cgrpgcore.RPG.Player.CPI CPI) {
+        Health = health;
+        this.MaxHealth = maxHealth;
+        this.MANA = MANA;
+        Stamina = stamina;
+        Level = level;
+        this.attributes = attributes;
+        this.points = points;
+        this.equipment = equipment;
+        this.pet = pet;
+        this.team = team;
+        this.RPGClass = RPGClass;
+        this.rank = rank;
+        this.CPI = CPI;
+        this.unlockSkill = new Skill[]{};
     }
 
-    public void load(){
-        YamlConfiguration yml = getYamlConfiguration();
-        this.Health = yml.getDouble("Health", 20);
-        this.MANA = yml.getDouble("MANA", 20);
-        this.Stamina = yml.getDouble("Stamina", 20);
-        this.Level.Level = yml.getInt("Level", 20);
-        this.Level.lessExp = yml.getInt("lessExp", 0);
-        this.Level.maxExp = yml.getInt("maxExp", 20);
-
+    public double getMaxHealth() {
+        return MaxHealth;
     }
-    public void save(){}
-    public void get(){}
-    public void remove(){}
+
+    public void setMaxHealth(double maxHealth) {
+        MaxHealth = maxHealth;
+    }
+
+    @Override
+    public String toString() {
+        return "RPGPlayer{" +
+                "player=" + player +
+                ", Health=" + Health +
+                ", MaxHealth=" + MaxHealth +
+                ", MANA=" + MANA +
+                ", Stamina=" + Stamina +
+                ", Level=" + Level +
+                ", attributes=" + attributes +
+                ", points=" + points +
+                ", equipment=" + equipment +
+                ", pet=" + pet +
+                ", team=" + team +
+                ", RPGClass=" + RPGClass +
+                ", rank=" + rank +
+                ", CPI=" + CPI +
+                ", unlockSkill=" + Arrays.toString(unlockSkill) +
+                '}';
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+    public void setPlayer(Player player){ this.player = player;}
+
+    public double getHealth() {
+        return Health;
+    }
+
+    public void setHealth(double health) {
+        Health = health;
+    }
+
+    public double getMANA() {
+        return MANA;
+    }
+
+    public void setMANA(double MANA) {
+        this.MANA = MANA;
+    }
+
+    public double getStamina() {
+        return Stamina;
+    }
+
+    public void setStamina(double stamina) {
+        Stamina = stamina;
+    }
+
+    public cg.creamgod45.cgrpgcore.RPG.Player.Level getLevel() {
+        return Level;
+    }
+
+    public void setLevel(cg.creamgod45.cgrpgcore.RPG.Player.Level level) {
+        Level = level;
+    }
+
+    public Attributes getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Attributes attributes) {
+        this.attributes = attributes;
+    }
+
+    public Points getPoints() {
+        return points;
+    }
+
+    public void setPoints(Points points) {
+        this.points = points;
+    }
+
+    public Equipment getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(Equipment equipment) {
+        this.equipment = equipment;
+    }
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public RPGClass getRPGClass() {
+        return RPGClass;
+    }
+
+    public void setRPGClass(cg.creamgod45.cgrpgcore.RPG.Player.RPGClass RPGClass) {
+        this.RPGClass = RPGClass;
+    }
+
+    public Rank getRank() {
+        return rank;
+    }
+
+    public void setRank(Rank rank) {
+        this.rank = rank;
+    }
+
+    public cg.creamgod45.cgrpgcore.RPG.Player.CPI getCPI() {
+        return CPI;
+    }
+
+    public void setCPI(cg.creamgod45.cgrpgcore.RPG.Player.CPI CPI) {
+        this.CPI = CPI;
+    }
+
+    public Skill[] getUnlockSkill() {
+        return unlockSkill;
+    }
+
+    public void setUnlockSkill(Skill[] unlockSkill) {
+        this.unlockSkill = unlockSkill;
+    }
 }

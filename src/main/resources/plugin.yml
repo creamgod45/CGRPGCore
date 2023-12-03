@@ -5,6 +5,7 @@ authors: [CreamGod45]
 api-version: '1.18'
 depend:
   - PlaceholderAPI
+  - Citizens
 description: 專屬授權於 CreamGod45 作者所使用的 RPG 系統
 
 commands:
