@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Iterator;
 
 public class Config {
+    public static String version = "1";
     public static boolean ConfigLoad;
     private static CGRPGCore instance;
     private static YamlConfiguration config;

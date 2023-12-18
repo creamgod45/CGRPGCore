@@ -20,7 +20,7 @@ public final class CGRPGCore extends JavaPlugin {
     public static CGRPGCore plugin;
     public static Config config;
     public static MemoryContainer<Object> memory;
-    private final InventoryManager inventoryManager = new InventoryManager(this);
+    private InventoryManager inventoryManager = new InventoryManager(this);
 
     public NMSMatcher nmsMatcher;
     public static BukkitAudiences adventure() {
@@ -57,7 +57,7 @@ public final class CGRPGCore extends JavaPlugin {
                 .add("<yellow>啟動....")
                 .output().print();
         ReloadFunction();
-        Utils.MiniMessage(memory.toString());
+        //Utils.MiniMessage(memory.toString());
         new ComponentMerge(config.prefix())
                 .add("<yellow>啟動....<green>完成")
                 .output().print();
@@ -101,6 +101,8 @@ public final class CGRPGCore extends JavaPlugin {
             adventure.close();
             adventure = null;
         }
+        memory = null;
+        inventoryManager = null;
         this.getServer().getPluginManager().disablePlugin(this);
     }
 
@@ -126,7 +128,7 @@ public final class CGRPGCore extends JavaPlugin {
                 for (Player onlinePlayer : this.getServer().getOnlinePlayers()) {
                     RPMC.updateRPGPlayer(onlinePlayer);
                 }
-                Utils.MiniMessage(RPMC.toString());
+                //Utils.MiniMessage(RPMC.toString());
             }
         }, 0, 20*60);
         //this.getServer().getScheduler().runTaskTimer(this, () -> {}, 20, 0);

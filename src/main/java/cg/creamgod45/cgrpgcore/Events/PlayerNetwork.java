@@ -6,6 +6,7 @@ import cg.creamgod45.cgrpgcore.Storage.RPGPlayerMemoryContainer;
 import cg.creamgod45.cgrpgcore.Storage.StorageNameField;
 import cg.creamgod45.cgrpgcore.Utils.ComponentMerge;
 import cg.creamgod45.cgrpgcore.Utils.Utils;
+import jdk.jshell.execution.Util;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,23 +20,25 @@ public class PlayerNetwork implements Listener {
     public PlayerNetwork(CGRPGCore plugin) {
         this.plugin = plugin;
         new ComponentMerge(plugin.getConfigClass().prefix())
-                .add("<color:#3246a8>監聽器註冊.... -> [PlayerJoin]")
+                .add("<color:#3246a8>監聽器註冊.... -> [PlayerNetwork]")
                 .output().print();
     }
 
     @EventHandler(ignoreCancelled = true)
     public void PlayerResourcePackStatusEventAsyncData(PlayerResourcePackStatusEvent e) {
-        if (e.getStatus() == PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED) {
-            Player player = e.getPlayer();
-            Object o = plugin.getMemoryContainer().get(StorageNameField.RPGPlayers);
-            if (o instanceof RPGPlayerMemoryContainer RPMC) {
-                if (!RPMC.getRpgplayerMap().containsKey(player.getUniqueId())) {
-                    RPMC.addRPGPlayer(player);
-                }
-                RPMC.initRPGPlayers();
-                RPGPlayer rpgPlayer = RPMC.getRpgplayerMap().get(player.getUniqueId());
-                player.setHealth(rpgPlayer.getHealth());
+        Player player = e.getPlayer();
+        Object o = plugin.getMemoryContainer().get(StorageNameField.RPGPlayers);
+        if (o instanceof RPGPlayerMemoryContainer RPMC) {
+            RPMC.initRPGPlayers();
+            RPMC.getRpgplayerMap().forEach((uuid, rpgPlayer) -> {
+                Utils.MiniMessage(uuid+":"+rpgPlayer);
+            });
+            if (!RPMC.getRpgplayerMap().containsKey(player.getUniqueId())) {
+                Utils.MiniMessage("addRPGPlayer");
+                RPMC.addRPGPlayer(player);
             }
+            RPGPlayer rpgPlayer = RPMC.getRpgplayerMap().get(player.getUniqueId());
+            player.setHealth(rpgPlayer.getHealth());
         }
     }
 

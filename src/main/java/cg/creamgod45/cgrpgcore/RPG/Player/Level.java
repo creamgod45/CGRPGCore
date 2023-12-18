@@ -10,6 +10,12 @@ public class Level {
         this.maxExp = maxExp;
     }
 
+    public Level(int level, int lessExp, int maxExp) {
+        Level = level;
+        this.maxExp = maxExp;
+        this.lessExp = lessExp;
+    }
+
     @Override
     public String toString() {
         return "Level{" +

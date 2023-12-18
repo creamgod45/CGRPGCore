@@ -1,12 +1,9 @@
 package cg.creamgod45.cgrpgcore.RPG.Player;
 
 import cg.creamgod45.cgrpgcore.RPG.Skill.Skill;
-import net.minecraft.server.level.EntityPlayer;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 // 用儲存玩家資訊檔案、或是被系統調用
 public class RPGPlayer {
